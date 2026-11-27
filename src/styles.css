@@ -1,3 +1,6 @@
-body {
-    background-color: rebeccapurple;
+.active {
+    background-color: blue;
+}
+table, thead, tbody, tr, th {
+    border: 1px solid black;
 }

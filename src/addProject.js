@@ -1,21 +1,31 @@
-const projectForm = document.querySelector("#project-form");
-const projectInput = document.querySelector("#projectInput").value;
+import { renderProjects } from "./renderProject.js"
+import { renderTodos } from "./renderTodos.js";
 
-export function showModal(dialog){
-    dialog.showModal();
+const projectDialog = document.querySelector("#project-dialog");
+const projectForm = document.querySelector("#project-form");
+
+const projectInput = document.querySelector("#project-input");
+
+export function showDialog(){
+    projectDialog.showModal();
 }
 
-export function closeModal(dialog){
-    dialog.closeModal();
+export function closeDialog() {
+    projectDialog.close();
     projectForm.reset();
 }
 
-export function addProject(projects){
-    projects.push({
-        id: crypto.randomUUID(),
-        name: projectInput.trim(),
-        todo: [],
-    });
-    localStorage.setItem("projects", JSON.stringify(projects));
+export function addProjects(projects) {
+    if(projectInput.value){
+        const project = {
+            id: crypto.randomUUID(),
+            name: projectInput.value.trim(),
+            todos: []
+        }
+        projects.push(project)
+        localStorage.setItem("projects", JSON.stringify(projects))
+        renderProjects(projects);
+        renderTodos(project);
+    }
     projectForm.reset();
 }

@@ -1,25 +1,56 @@
-import { showModal, closeModal, addProject } from "./addProject.js"
+import { showDialog, closeDialog, addProjects } from "./addProject.js";
+import { renderProjects } from "./renderProject.js";
+import { showTodoDialog, closeTodoDialog, addTodoFunction } from "./addTodo.js"
+import { renderTodos } from "./renderTodos.js"
 
-const addProjectBtn = document.querySelector("#addProject");
-const closeProjectDialog = document.querySelector("#cancel");
+const newProjectBtn = document.querySelector("#new-project-btn");
+const closeProjectDialogBtn = document.querySelector("#cancel-project");
 const projectForm = document.querySelector("#project-form");
 
-const dialog = document.querySelector("dialog");
+const projectList = document.querySelector("#project-list");
+const addTodo = document.querySelector("#add-todo");
+const todoDialog = document.querySelector("#todo-dialog");
 
-const projects = JSON.parse(localStorage.getItem("projects")) ?? [];
+let projects = JSON.parse(localStorage.getItem("projects")) ?? [];
 
 export function loadHome() {
-    addProjectBtn.addEventListener("click", () => {
-        showModal(dialog);
+    renderProjects(projects)
+    
+    newProjectBtn.addEventListener("click", () => {
+        showDialog();
     });
 
-    closeProjectDialog.addEventListener("click", () => {
-        closeModal(dialog);
+    closeProjectDialogBtn.addEventListener("click", () => {
+        closeDialog();
     });
 
     projectForm.addEventListener("submit", () => {
-        addProject(projects);
+        addProjects(projects);
     })
 
+    addTodo.addEventListener("click", ()=>{
+        showTodoDialog(projects)
+    })
 
+    projectList.addEventListener("click", (e) => {
+        const li = e.target.closest("li");
+        const list = li.parentElement;
+        const allList = list ? [...list.children]:[];
+        
+        allList.forEach(li => li.classList.remove("active"));
+    
+        li.classList.add("active");
+        const project = projects.find(project => project.id === e.target.closest("li").dataset.projectId);
+        
+        renderTodos(project);
+    })
+
+    todoDialog.addEventListener("click", (e) => {
+        if(e.target.id === "cancel-todo"){
+            closeTodoDialog();
+        } else if(e.target.id === "submit-todo"){
+            e.preventDefault();
+            addTodoFunction(projects);
+        }
+    })
 }   
