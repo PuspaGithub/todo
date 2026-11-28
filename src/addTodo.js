@@ -27,13 +27,15 @@ export function addTodoFunction(projects){
     const data = Object.fromEntries(formData);
 
     const project = projects.find(project => project.name === data.project);
+    projects.forEach(p => p.active = false);
+    project.active = true;
     project.todos.push({
         id: crypto.randomUUID(),
         title: data.title,
         description: data.description,
         dueDate: data.dueDate,
         priority: data.priority,
-        project: data.project
+        project: data.project,
     })
     localStorage.setItem("projects", JSON.stringify(projects))
 

@@ -2,10 +2,9 @@ import { create } from "./create.js"
 const tbody = document.querySelector("#tbody");
 const projectName = document.querySelector("#project-name")
 
-export function renderTodos(project){    
+export function renderTodos(project, projects){    
     tbody.textContent = "";
     projectName.textContent = project.name;
-
     for(let i=0; i<project["todos"].length; i++){
         const projectTodo = project["todos"][i];
         const tr = create("tr");

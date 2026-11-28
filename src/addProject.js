@@ -17,9 +17,11 @@ export function closeDialog() {
 
 export function addProjects(projects) {
     if(projectInput.value){
+        projects.forEach(project => {project.active = false});
         const project = {
             id: crypto.randomUUID(),
             name: projectInput.value.trim(),
+            active: true,
             todos: []
         }
         projects.push(project)

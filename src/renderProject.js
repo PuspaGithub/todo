@@ -8,6 +8,10 @@ export function renderProjects(projects){
         for(let i=0; i<projects.length; i++){
             const li = create("li");
             li.dataset.projectId = projects[i].id;
+            li.dataset.active = projects[i].active;
+            if(projects[i].active === true){
+                li.classList.add("active");
+            }
             const btn = create("button");
 
             const noOfTodos = projects[i]["todos"].length ? projects[i]["todos"].length : "0";
